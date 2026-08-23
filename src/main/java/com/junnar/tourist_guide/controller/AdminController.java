@@ -1,7 +1,9 @@
 package com.junnar.tourist_guide.controller;
 
+import com.junnar.tourist_guide.model.Event;
 import com.junnar.tourist_guide.model.Place;
 import com.junnar.tourist_guide.repository.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,6 +22,8 @@ public class AdminController {
     @Autowired private PlaceRepository placeRepository;
     @Autowired private ReviewRepository reviewRepository;
     @Autowired private ItineraryRepository itineraryRepository;
+    @Autowired private EventRepository eventRepository;
+
 
     private boolean isAdmin(Authentication auth) {
         User user = userRepository.findByEmail(auth.getName()).orElse(null);
@@ -90,5 +94,20 @@ public class AdminController {
             userRepository.save(u);
         });
         return ResponseEntity.ok(Map.of("message", "User promoted to admin"));
+    }
+
+    // POST /api/admin/events
+    @PostMapping("/events")
+    public ResponseEntity<?> addEvent(@RequestBody Event event, Authentication auth) {
+        if (!isAdmin(auth)) return ResponseEntity.status(403).body("Forbidden");
+        return ResponseEntity.ok(eventRepository.save(event));
+    }
+
+    // DELETE /api/admin/events/{id}
+    @DeleteMapping("/events/{id}")
+    public ResponseEntity<?> deleteEvent(@PathVariable String id, Authentication auth) {
+        if (!isAdmin(auth)) return ResponseEntity.status(403).body("Forbidden");
+        eventRepository.deleteById(id);
+        return ResponseEntity.ok(Map.of("message", "Event deleted"));
     }
 }
