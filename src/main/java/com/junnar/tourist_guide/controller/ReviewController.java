@@ -29,6 +29,7 @@ public class ReviewController {
     // POST /api/reviews
     @PostMapping
     public ResponseEntity<?> addReview(@RequestBody Map<String, Object> body, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         String email = auth.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
 
@@ -36,7 +37,17 @@ public class ReviewController {
         review.setPlaceId((String) body.get("placeId"));
         review.setUserId(user.getId());
         review.setUserName(user.getName());
-        review.setRating((Integer) body.get("rating"));
+        
+        int rating = 0;
+        if (body.get("rating") != null) {
+            try {
+                rating = Integer.parseInt(body.get("rating").toString());
+            } catch (NumberFormatException e) {
+                return ResponseEntity.badRequest().body(Map.of("error", "Invalid rating"));
+            }
+        }
+        review.setRating(rating);
+        
         review.setComment((String) body.get("comment"));
         review.setCreatedAt(LocalDateTime.now().toString());
 
@@ -46,6 +57,7 @@ public class ReviewController {
     // DELETE /api/reviews/{id}
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable String id, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).build();
         String email = auth.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
         reviewRepository.findById(id).ifPresent(r -> {

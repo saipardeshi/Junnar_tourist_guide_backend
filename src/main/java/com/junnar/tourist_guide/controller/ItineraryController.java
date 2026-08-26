@@ -9,6 +9,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/itineraries")
@@ -20,24 +22,38 @@ public class ItineraryController {
     // GET /api/itineraries  — returns logged-in user's itineraries
     @GetMapping
     public List<Itinerary> getMyItineraries(Authentication auth) {
+        if (auth == null) return List.of();
         String email = auth.getName();
-        String userId = userRepository.findByEmail(email).get().getId();
-        return itineraryService.getByUser(userId);
+        return userRepository.findByEmail(email)
+                .map(u -> itineraryService.getByUser(u.getId()))
+                .orElse(List.of());
     }
 
     // POST /api/itineraries
     @PostMapping
-    public Itinerary create(@RequestBody Itinerary itinerary, Authentication auth) {
+    public ResponseEntity<?> create(@RequestBody Itinerary itinerary, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         String email = auth.getName();
-        String userId = userRepository.findByEmail(email).get().getId();
-        itinerary.setUserId(userId);
-        return itineraryService.save(itinerary);
+        return userRepository.findByEmail(email)
+                .map(u -> {
+                    itinerary.setUserId(u.getId());
+                    return ResponseEntity.ok(itineraryService.save(itinerary));
+                })
+                .orElseGet(() -> ResponseEntity.status(401).body((Itinerary) null));
     }
 
     // DELETE /api/itineraries/{id}
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable String id) {
-        itineraryService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable String id, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).build();
+        String email = auth.getName();
+        userRepository.findByEmail(email).ifPresent(user -> {
+            itineraryService.getById(id).ifPresent(it -> {
+                if (it.getUserId().equals(user.getId()) || "ADMIN".equals(user.getRole())) {
+                    itineraryService.delete(id);
+                }
+            });
+        });
         return ResponseEntity.ok().build();
     }
 }
