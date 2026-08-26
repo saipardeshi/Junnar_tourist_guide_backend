@@ -13,6 +13,8 @@ import com.junnar.tourist_guide.model.User;
 
 import java.util.List;
 import java.util.Map;
+import java.util.HashMap;
+import org.springframework.transaction.annotation.Transactional;
 
 @RestController
 @RequestMapping("/api/admin")
@@ -26,6 +28,7 @@ public class AdminController {
 
 
     private boolean isAdmin(Authentication auth) {
+        if (auth == null) return false;
         User user = userRepository.findByEmail(auth.getName()).orElse(null);
         return user != null && "ADMIN".equals(user.getRole());
     }
@@ -47,10 +50,14 @@ public class AdminController {
     public ResponseEntity<?> getAllUsers(Authentication auth) {
         if (!isAdmin(auth)) return ResponseEntity.status(403).body("Forbidden");
         List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users.stream().map(u -> Map.of(
-                "id", u.getId(), "name", u.getName(),
-                "email", u.getEmail(), "role", u.getRole()
-        )).toList());
+        return ResponseEntity.ok(users.stream().map(u -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", u.getId());
+            map.put("name", u.getName());
+            map.put("email", u.getEmail());
+            map.put("role", u.getRole());
+            return map;
+        }).toList());
     }
 
     // DELETE /api/admin/reviews/{id}
@@ -78,6 +85,7 @@ public class AdminController {
 
     // DELETE /api/admin/places/{id}
     @DeleteMapping("/places/{id}")
+    @Transactional
     public ResponseEntity<?> deletePlace(@PathVariable String id, Authentication auth) {
         if (!isAdmin(auth)) return ResponseEntity.status(403).body("Forbidden");
         placeRepository.deleteById(id);
