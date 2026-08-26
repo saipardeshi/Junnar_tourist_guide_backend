@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.HashMap;
 import java.util.Optional;
 
 @RestController
@@ -23,33 +24,47 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
         String email = body.get("email");
+        String password = body.get("password");
+        if (email == null || email.isBlank() || password == null || password.isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Email and password are required"));
+        }
         if (userRepository.existsByEmail(email)) {
             return ResponseEntity.badRequest().body(Map.of("error", "Email already registered"));
         }
         User user = new User(
                 body.get("name"),
                 email,
-                passwordEncoder.encode(body.get("password")),
+                passwordEncoder.encode(password),
                 "USER"
         );
         userRepository.save(user);
         String token = jwtUtil.generateToken(email);
-        return ResponseEntity.ok(Map.of("token", token, "name", user.getName()));
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        response.put("name", user.getName());
+        return ResponseEntity.ok(response);
     }
 
     // POST /api/auth/login
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
         String email = body.get("email");
+        String password = body.get("password");
+        if (email == null || password == null) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Email and password are required"));
+        }
         Optional<User> userOpt = userRepository.findByEmail(email);
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
         User user = userOpt.get();
-        if (!passwordEncoder.matches(body.get("password"), user.getPassword())) {
+        if (!passwordEncoder.matches(password, user.getPassword())) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
         String token = jwtUtil.generateToken(email);
-        return ResponseEntity.ok(Map.of("token", token, "name", user.getName()));
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        response.put("name", user.getName());
+        return ResponseEntity.ok(response);
     }
 }

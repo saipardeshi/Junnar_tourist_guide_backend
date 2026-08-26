@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 @RestController
 @RequestMapping("/api/user")
@@ -22,33 +24,45 @@ public class UserController {
     // GET /api/user/profile
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         User user = userRepository.findByEmail(auth.getName()).orElseThrow();
         int itineraryCount = itineraryRepository.findByUserId(user.getId()).size();
         int reviewCount = reviewRepository.findByUserId(user.getId()).size();
-        return ResponseEntity.ok(Map.of(
-                "id", user.getId(),
-                "name", user.getName(),
-                "email", user.getEmail(),
-                "role", user.getRole(),
-                "favourites", user.getFavourites(),
-                "itineraryCount", itineraryCount,
-                "reviewCount", reviewCount
-        ));
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", user.getId());
+        response.put("name", user.getName());
+        response.put("email", user.getEmail());
+        response.put("role", user.getRole());
+        response.put("favourites", user.getFavourites() != null ? user.getFavourites() : new ArrayList<>());
+        response.put("itineraryCount", itineraryCount);
+        response.put("reviewCount", reviewCount);
+        
+        return ResponseEntity.ok(response);
     }
 
     // PUT /api/user/profile — update name
     @PutMapping("/profile")
     public ResponseEntity<?> updateProfile(@RequestBody Map<String, String> body, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         User user = userRepository.findByEmail(auth.getName()).orElseThrow();
         if (body.containsKey("name")) user.setName(body.get("name"));
         userRepository.save(user);
-        return ResponseEntity.ok(Map.of("message", "Profile updated", "name", user.getName()));
+        
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Profile updated");
+        response.put("name", user.getName());
+        return ResponseEntity.ok(response);
     }
 
     // POST /api/user/favourites/{placeId} — toggle favourite
     @PostMapping("/favourites/{placeId}")
     public ResponseEntity<?> toggleFavourite(@PathVariable String placeId, Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         User user = userRepository.findByEmail(auth.getName()).orElseThrow();
+        if (user.getFavourites() == null) {
+            user.setFavourites(new ArrayList<>());
+        }
         if (user.getFavourites().contains(placeId)) {
             user.getFavourites().remove(placeId);
         } else {
@@ -61,7 +75,8 @@ public class UserController {
     // GET /api/user/favourites
     @GetMapping("/favourites")
     public ResponseEntity<?> getFavourites(Authentication auth) {
+        if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         User user = userRepository.findByEmail(auth.getName()).orElseThrow();
-        return ResponseEntity.ok(Map.of("favourites", user.getFavourites()));
+        return ResponseEntity.ok(Map.of("favourites", user.getFavourites() != null ? user.getFavourites() : new ArrayList<>()));
     }
 }
