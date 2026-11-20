@@ -219,7 +219,52 @@ public class DataInitializer implements CommandLineRunner {
                         "Shiv Shrusti is an immersive theme park in Junnar dedicated to the life and legacy of Chhatrapati Shivaji Maharaj. It features life-size replicas of forts, wax statues, historical dioramas and cultural exhibits that bring Maratha history to life.",
                         "Heritage", "Junnar, Pune District", 4.3,
                         List.of("theme park", "Shivaji", "heritage", "family", "culture"),
-                        "Year-round", "₹100 per person", "9:00 AM – 6:00 PM")
+                        "Year-round", "₹100 per person", "9:00 AM – 6:00 PM"),
+
+                // 25. Narayangad Fort → FORT
+                place("Narayangad Fort",
+                        "Hill fort near Narayangaon with panoramic views of the Deccan plateau and the nearby GMRT. A short trek with ruins, water cisterns and rock-cut steps.",
+                        "Fort",
+                        "Narayangaon, Junnar Taluka, Pune District",
+                        4.4,
+                        List.of("trekking", "history", "viewpoint"),
+                        "October to February", "Free", "6:00 AM – 6:00 PM"),
+
+                // 26. Giant Metrewave Radio Telescope (GMRT), Khodad → NATURE
+                place("Giant Metrewave Radio Telescope (GMRT), Khodad",
+                        "One of the world's largest radio telescope arrays, with 30 dishes of 45 m each, run by NCRA-TIFR. Open to visitors on specific days.",
+                        "Nature",
+                        "Khodad, Junnar Taluka, Pune District",
+                        4.6,
+                        List.of("science", "astronomy", "education"),
+                        "October to March", "Free", "Check NCRA visitor schedule"),
+
+                // 27. Manikdoh Leopard Rescue Centre → NATURE
+                place("Manikdoh Leopard Rescue Centre",
+                        "Rescue and rehabilitation centre for leopards in the Junnar region, near Manikdoh Dam.",
+                        "Nature",
+                        "Manikdoh, Junnar Taluka, Pune District",
+                        4.3,
+                        List.of("wildlife", "leopard", "nature"),
+                        "October to February", "Check entry fee", "10:00 AM – 5:00 PM"),
+
+                // 28. Habashi Gumbad → HERITAGE
+                place("Habashi Gumbad",
+                        "Historic tomb from the Bahmani/Nizamshahi era in Junnar, known for its domed Indo-Islamic architecture.",
+                        "Heritage",
+                        "Junnar, Pune District",
+                        4.0,
+                        List.of("heritage", "architecture", "history"),
+                        "October to March", "Free", "9:00 AM – 6:00 PM"),
+
+                // 29. Ambe Hatvij → NATURE
+                place("Ambe Hatvij",
+                        "Scenic hill village in the Sahyadri range, known for misty viewpoints and monsoon greenery.",
+                        "Nature",
+                        "Ambe Hatvij, Junnar Taluka, Pune District",
+                        4.4,
+                        List.of("nature", "viewpoint", "monsoon"),
+                        "June to February", "Free", "Open all day")
         );
 
         placeRepository.saveAll(places);
