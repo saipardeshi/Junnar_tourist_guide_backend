@@ -10,8 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/hotels")
-@CrossOrigin(origins = {"http://localhost:5173", "https://junnar-tourist-guide-f.vercel.app"})
-public class HotelController {
+public class HotelController {   // CORS is configured once, globally, in SecurityConfig
 
     private final HotelRepository hotelRepository;
 

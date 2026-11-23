@@ -38,11 +38,7 @@ public class AuthController {
                 "USER"
         );
         userRepository.save(user);
-        String token = jwtUtil.generateToken(email);
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        response.put("name", user.getName());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(authResponse(user));
     }
 
     // POST /api/auth/login
@@ -61,10 +57,17 @@ public class AuthController {
         if (!passwordEncoder.matches(password, user.getPassword())) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
-        String token = jwtUtil.generateToken(email);
+        return ResponseEntity.ok(authResponse(user));
+    }
+
+    // The frontend (AuthContext) needs role and id as well as token/name:
+    // the admin dashboard guard and the "delete my review" button depend on them.
+    private Map<String, String> authResponse(User user) {
         Map<String, String> response = new HashMap<>();
-        response.put("token", token);
+        response.put("token", jwtUtil.generateToken(user.getEmail()));
         response.put("name", user.getName());
-        return ResponseEntity.ok(response);
+        response.put("id", user.getId());
+        response.put("role", user.getRole());
+        return response;
     }
 }

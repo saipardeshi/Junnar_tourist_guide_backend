@@ -33,22 +33,29 @@ public class ReviewController {
         String email = auth.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
 
+        Object placeIdRaw = body.get("placeId");
+        if (placeIdRaw == null || placeIdRaw.toString().isBlank()) {
+            return ResponseEntity.badRequest().body(Map.of("error", "placeId is required"));
+        }
+
+        int rating;
+        try {
+            rating = Integer.parseInt(String.valueOf(body.get("rating")));
+        } catch (NumberFormatException e) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Invalid rating"));
+        }
+        if (rating < 1 || rating > 5) {
+            return ResponseEntity.badRequest().body(Map.of("error", "Rating must be between 1 and 5"));
+        }
+
+        Object commentRaw = body.get("comment");
+
         Review review = new Review();
-        review.setPlaceId((String) body.get("placeId"));
+        review.setPlaceId(placeIdRaw.toString());
         review.setUserId(user.getId());
         review.setUserName(user.getName());
-        
-        int rating = 0;
-        if (body.get("rating") != null) {
-            try {
-                rating = Integer.parseInt(body.get("rating").toString());
-            } catch (NumberFormatException e) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Invalid rating"));
-            }
-        }
         review.setRating(rating);
-        
-        review.setComment((String) body.get("comment"));
+        review.setComment(commentRaw == null ? "" : commentRaw.toString());
         review.setCreatedAt(LocalDateTime.now().toString());
 
         return ResponseEntity.ok(reviewRepository.save(review));
@@ -61,7 +68,7 @@ public class ReviewController {
         String email = auth.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
         reviewRepository.findById(id).ifPresent(r -> {
-            if (r.getUserId().equals(user.getId()) || "ADMIN".equals(user.getRole())) {
+            if (user.getId().equals(r.getUserId()) || "ADMIN".equals(user.getRole())) {
                 reviewRepository.deleteById(id);
             }
         });

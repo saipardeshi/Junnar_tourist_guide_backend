@@ -8,4 +8,5 @@ public interface PlaceRepository extends MongoRepository<Place, String> {
     List<Place> findByCategory(String category);
     List<Place> findByNameContainingIgnoreCase(String name);
     List<Place> findByTagsContaining(String tag);
+    boolean existsByName(String name);
 }

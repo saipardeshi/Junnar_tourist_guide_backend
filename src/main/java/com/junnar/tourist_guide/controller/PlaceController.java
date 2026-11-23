@@ -4,6 +4,7 @@ import com.junnar.tourist_guide.model.Place;
 import com.junnar.tourist_guide.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,14 +42,17 @@ public class PlaceController {
         return placeService.searchByName(name);
     }
 
-    // POST /api/places  (admin only — you can add role check later)
+    // POST /api/places  (admin only)
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Place addPlace(@RequestBody Place place) {
+        place.setId(null); // always create a new document; updates go through /api/admin/places/{id}
         return placeService.savePlace(place);
     }
 
-    // DELETE /api/places/{id}
+    // DELETE /api/places/{id}  (admin only)
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deletePlace(@PathVariable String id) {
         placeService.deletePlace(id);
         return ResponseEntity.ok().build();
