@@ -25,7 +25,7 @@ public class AdminController {
     @Autowired private ReviewRepository reviewRepository;
     @Autowired private ItineraryRepository itineraryRepository;
     @Autowired private EventRepository eventRepository;
-
+    @Autowired private ContactMessageRepository contactMessageRepository;
 
     private boolean isAdmin(Authentication auth) {
         if (auth == null) return false;
@@ -43,6 +43,14 @@ public class AdminController {
                 "totalReviews", reviewRepository.count(),
                 "totalItineraries", itineraryRepository.count()
         ));
+    }
+
+    // GET /api/admin/contacts — messages sent through the public Contact form, newest first
+    @GetMapping("/contacts")
+    public ResponseEntity<?> getContactMessages(Authentication auth) {
+        if (!isAdmin(auth)) return ResponseEntity.status(403).body("Forbidden");
+        return ResponseEntity.ok(contactMessageRepository.findAll(
+                org.springframework.data.domain.Sort.by(org.springframework.data.domain.Sort.Direction.DESC, "createdAt")));
     }
 
     // GET /api/admin/users
