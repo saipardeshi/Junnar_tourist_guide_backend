@@ -1,0 +1,254 @@
+[ {
+  "name" : "Hotel Shivneri",
+  "type" : "Hotel",
+  "address" : "Main Road, Junnar, Pune District - 410502",
+  "phone" : "+91 98765 11001",
+  "email" : "hotelshivneri@gmail.com",
+  "website" : "",
+  "rating" : 4.2,
+  "priceRange" : "₹800 – ₹1,800 per night",
+  "images" : [ ],
+  "amenities" : [ "Free Wi-Fi", "Parking", "24×7 Reception", "Room Service", "Hot Water" ],
+  "roomTypes" : [ {
+    "name" : "Standard Room",
+    "price" : "₹800 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "AC", "TV", "Hot Water" ]
+  }, {
+    "name" : "Deluxe Room",
+    "price" : "₹1,200 / night",
+    "capacity" : "2 Adults + 1 Child",
+    "features" : [ "AC", "TV", "Hot Water", "Mini Fridge" ]
+  }, {
+    "name" : "Family Suite",
+    "price" : "₹1,800 / night",
+    "capacity" : "4 Adults",
+    "features" : [ "AC", "TV", "Hot Water", "Sitting Area", "Mini Fridge" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : true,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Poha, Upma, Idli-Sambhar, Tea/Coffee",
+    "lunchMenu" : "Maharashtrian Thali, Dal-Rice, Chapati Sabji",
+    "dinnerMenu" : "Full dinner thali with dessert, Roti, Sabji, Dal, Rice",
+    "cuisineType" : "Maharashtrian, North Indian",
+    "mealPriceRange" : "₹80 – ₹250 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Junnar+Hotel+Shivneri",
+  "available" : true
+}, {
+  "name" : "Hotel Sahyadri",
+  "type" : "Hotel",
+  "address" : "Shivaji Chowk, Junnar, Pune - 410502",
+  "phone" : "+91 98765 22002",
+  "email" : "sahyadrihotel@gmail.com",
+  "website" : "",
+  "rating" : 4.0,
+  "priceRange" : "₹700 – ₹1,500 per night",
+  "images" : [ ],
+  "amenities" : [ "Free Wi-Fi", "Parking", "Restaurant", "Hot Water", "24×7 Reception" ],
+  "roomTypes" : [ {
+    "name" : "Standard Room",
+    "price" : "₹700 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "Fan", "TV", "Hot Water" ]
+  }, {
+    "name" : "AC Room",
+    "price" : "₹1,100 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "AC", "TV", "Hot Water" ]
+  }, {
+    "name" : "Deluxe Room",
+    "price" : "₹1,500 / night",
+    "capacity" : "2 Adults + 1 Child",
+    "features" : [ "AC", "TV", "Hot Water", "Balcony" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : true,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Misal Pav, Poha, Bread-Butter, Tea",
+    "lunchMenu" : "Veg Thali, Pav Bhaji, Biryani",
+    "dinnerMenu" : "Special Thali, Paneer dishes, Dal Tadka, Roti",
+    "cuisineType" : "Maharashtrian, South Indian",
+    "mealPriceRange" : "₹80 – ₹200 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Junnar+Hotel+Sahyadri",
+  "available" : true
+}, {
+  "name" : "Shivneri Lodge",
+  "type" : "Lodge",
+  "address" : "Near Shivneri Fort Road, Junnar - 410502",
+  "phone" : "+91 94234 33003",
+  "email" : "",
+  "website" : "",
+  "rating" : 3.8,
+  "priceRange" : "₹500 – ₹900 per night",
+  "images" : [ ],
+  "amenities" : [ "Parking", "Hot Water", "Room Service" ],
+  "roomTypes" : [ {
+    "name" : "Non-AC Room",
+    "price" : "₹500 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "Fan", "TV", "Hot Water" ]
+  }, {
+    "name" : "AC Room",
+    "price" : "₹900 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "AC", "TV", "Hot Water" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : false,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Poha, Tea, Bread Omelette",
+    "lunchMenu" : "",
+    "dinnerMenu" : "Simple thali — Dal, Rice, Chapati, Vegetable",
+    "cuisineType" : "Maharashtrian",
+    "mealPriceRange" : "₹60 – ₹150 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Shivneri+Lodge+Junnar",
+  "available" : true
+}, {
+  "name" : "Malshej Heights Resort",
+  "type" : "Resort",
+  "address" : "Malshej Ghat, Thane-Pune Border - 412406",
+  "phone" : "+91 98201 44004",
+  "email" : "malshejheights@gmail.com",
+  "website" : "https://malshejheights.com",
+  "rating" : 4.5,
+  "priceRange" : "₹2,500 – ₹6,000 per night",
+  "images" : [ ],
+  "amenities" : [ "Swimming Pool", "Free Wi-Fi", "Restaurant", "Spa", "Parking", "Nature Walks", "Bonfire", "Valley View Rooms" ],
+  "roomTypes" : [ {
+    "name" : "Valley View Room",
+    "price" : "₹2,500 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "AC", "TV", "Valley View", "Hot Water" ]
+  }, {
+    "name" : "Deluxe Cottage",
+    "price" : "₹4,000 / night",
+    "capacity" : "2 Adults + 2 Kids",
+    "features" : [ "AC", "TV", "Private Sit-out", "Minibar" ]
+  }, {
+    "name" : "Premium Suite",
+    "price" : "₹6,000 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "AC", "TV", "Jacuzzi", "Valley View", "Butler Service" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : true,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Continental & Indian Breakfast Buffet, Fresh Juice, Eggs",
+    "lunchMenu" : "Multi-cuisine buffet — Indian, Chinese, Continental",
+    "dinnerMenu" : "BBQ nights, Maharashtrian special, Live counter",
+    "cuisineType" : "Multi-cuisine — Indian, Chinese, Continental",
+    "mealPriceRange" : "₹300 – ₹800 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Malshej+Heights+Resort",
+  "available" : true
+}, {
+  "name" : "Bhimashankar Eco Lodge",
+  "type" : "Lodge",
+  "address" : "Near Bhimashankar Temple, Bhimashankar - 410301",
+  "phone" : "+91 94056 55005",
+  "email" : "",
+  "website" : "",
+  "rating" : 4.1,
+  "priceRange" : "₹1,000 – ₹2,000 per night",
+  "images" : [ ],
+  "amenities" : [ "Parking", "Forest View", "Hot Water", "Guided Treks", "Campfire" ],
+  "roomTypes" : [ {
+    "name" : "Forest Cottage",
+    "price" : "₹1,000 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "Fan", "Hot Water", "Forest View" ]
+  }, {
+    "name" : "Deluxe Cottage",
+    "price" : "₹2,000 / night",
+    "capacity" : "2 Adults + 1 Child",
+    "features" : [ "AC", "Hot Water", "Forest View", "Sit-out" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : true,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Poha, Upma, Boiled Eggs, Tea/Coffee",
+    "lunchMenu" : "Maharashtrian Thali, Rice-Dal, Chapati",
+    "dinnerMenu" : "Veg/Non-Veg Thali, Chicken Curry, Roti",
+    "cuisineType" : "Maharashtrian, Non-Veg specials",
+    "mealPriceRange" : "₹100 – ₹300 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Bhimashankar+Eco+Lodge",
+  "available" : true
+}, {
+  "name" : "Dimbhe Riverside Homestay",
+  "type" : "Homestay",
+  "address" : "Dimbhe Village, Ambegaon Taluka, Pune - 412301",
+  "phone" : "+91 93456 66006",
+  "email" : "",
+  "website" : "",
+  "rating" : 4.3,
+  "priceRange" : "₹600 – ₹1,200 per night",
+  "images" : [ ],
+  "amenities" : [ "Dam View", "Home-cooked Meals", "Bonfire", "Fishing", "Parking" ],
+  "roomTypes" : [ {
+    "name" : "Double Room",
+    "price" : "₹600 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "Fan", "Hot Water", "Dam View" ]
+  }, {
+    "name" : "Family Room",
+    "price" : "₹1,200 / night",
+    "capacity" : "4 Adults",
+    "features" : [ "Fan", "Hot Water", "Dam View", "Attached Bath" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : true,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Homemade Poha, Shira, Chai, Fresh fruits",
+    "lunchMenu" : "Traditional Maharashtrian Thali — Bhakri, Pithla, Dal",
+    "dinnerMenu" : "Fish Curry, Chicken Curry, Bhakri, Rice (local catch)",
+    "cuisineType" : "Authentic Maharashtrian, Local Fish Specialties",
+    "mealPriceRange" : "₹80 – ₹220 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Dimbhe+Dam+Homestay",
+  "available" : true
+}, {
+  "name" : "Hotel Naneghat View",
+  "type" : "Hotel",
+  "address" : "Ghodegaon Road, Junnar, Pune - 410502",
+  "phone" : "+91 98600 77007",
+  "email" : "naneghatview@gmail.com",
+  "website" : "",
+  "rating" : 3.9,
+  "priceRange" : "₹750 – ₹1,400 per night",
+  "images" : [ ],
+  "amenities" : [ "Free Wi-Fi", "Parking", "Restaurant", "Hot Water" ],
+  "roomTypes" : [ {
+    "name" : "Standard Room",
+    "price" : "₹750 / night",
+    "capacity" : "2 Adults",
+    "features" : [ "Fan", "TV", "Hot Water" ]
+  }, {
+    "name" : "AC Room",
+    "price" : "₹1,400 / night",
+    "capacity" : "2 Adults + 1 Child",
+    "features" : [ "AC", "TV", "Hot Water" ]
+  } ],
+  "meals" : {
+    "breakfastAvailable" : true,
+    "lunchAvailable" : true,
+    "dinnerAvailable" : true,
+    "breakfastMenu" : "Idli, Vada, Poha, Tea/Coffee",
+    "lunchMenu" : "Thali, Dal-Rice, Jeera Rice, Sabji",
+    "dinnerMenu" : "Full dinner thali, Paneer, Roti, Dal Fry",
+    "cuisineType" : "South Indian, Maharashtrian, North Indian",
+    "mealPriceRange" : "₹80 – ₹220 per person"
+  },
+  "googleMapsUrl" : "https://maps.google.com/?q=Hotel+Naneghat+View+Junnar",
+  "available" : true
+} ]

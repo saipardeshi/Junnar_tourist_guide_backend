@@ -1,8 +1,11 @@
 package com.junnar.tourist_guide.controller;
 
+import com.junnar.tourist_guide.dto.LoginRequest;
+import com.junnar.tourist_guide.dto.RegisterRequest;
 import com.junnar.tourist_guide.model.User;
 import com.junnar.tourist_guide.repository.UserRepository;
 import com.junnar.tourist_guide.security.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,19 +25,15 @@ public class AuthController {
 
     // POST /api/auth/register
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Map<String, String> body) {
-        String email = body.get("email");
-        String password = body.get("password");
-        if (email == null || email.isBlank() || password == null || password.isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Email and password are required"));
-        }
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest body) {
+        String email = body.email().trim();
         if (userRepository.existsByEmail(email)) {
             return ResponseEntity.badRequest().body(Map.of("error", "Email already registered"));
         }
         User user = new User(
-                body.get("name"),
+                body.name().trim(),
                 email,
-                passwordEncoder.encode(password),
+                passwordEncoder.encode(body.password()),
                 "USER"
         );
         userRepository.save(user);
@@ -43,18 +42,13 @@ public class AuthController {
 
     // POST /api/auth/login
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Map<String, String> body) {
-        String email = body.get("email");
-        String password = body.get("password");
-        if (email == null || password == null) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Email and password are required"));
-        }
-        Optional<User> userOpt = userRepository.findByEmail(email);
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest body) {
+        Optional<User> userOpt = userRepository.findByEmail(body.email().trim());
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
         User user = userOpt.get();
-        if (!passwordEncoder.matches(password, user.getPassword())) {
+        if (!passwordEncoder.matches(body.password(), user.getPassword())) {
             return ResponseEntity.status(401).body(Map.of("error", "Invalid credentials"));
         }
         return ResponseEntity.ok(authResponse(user));
