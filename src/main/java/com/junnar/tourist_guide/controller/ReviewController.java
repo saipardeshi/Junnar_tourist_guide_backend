@@ -1,9 +1,11 @@
 package com.junnar.tourist_guide.controller;
 
+import com.junnar.tourist_guide.dto.ReviewRequest;
 import com.junnar.tourist_guide.model.Review;
 import com.junnar.tourist_guide.model.User;
 import com.junnar.tourist_guide.repository.ReviewRepository;
 import com.junnar.tourist_guide.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -28,34 +30,17 @@ public class ReviewController {
 
     // POST /api/reviews
     @PostMapping
-    public ResponseEntity<?> addReview(@RequestBody Map<String, Object> body, Authentication auth) {
+    public ResponseEntity<?> addReview(@Valid @RequestBody ReviewRequest body, Authentication auth) {
         if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         String email = auth.getName();
         User user = userRepository.findByEmail(email).orElseThrow();
 
-        Object placeIdRaw = body.get("placeId");
-        if (placeIdRaw == null || placeIdRaw.toString().isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "placeId is required"));
-        }
-
-        int rating;
-        try {
-            rating = Integer.parseInt(String.valueOf(body.get("rating")));
-        } catch (NumberFormatException e) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Invalid rating"));
-        }
-        if (rating < 1 || rating > 5) {
-            return ResponseEntity.badRequest().body(Map.of("error", "Rating must be between 1 and 5"));
-        }
-
-        Object commentRaw = body.get("comment");
-
         Review review = new Review();
-        review.setPlaceId(placeIdRaw.toString());
+        review.setPlaceId(body.placeId().trim());
         review.setUserId(user.getId());
         review.setUserName(user.getName());
-        review.setRating(rating);
-        review.setComment(commentRaw == null ? "" : commentRaw.toString());
+        review.setRating(body.rating());
+        review.setComment(body.comment() == null ? "" : body.comment().trim());
         review.setCreatedAt(LocalDateTime.now().toString());
 
         return ResponseEntity.ok(reviewRepository.save(review));

@@ -1,9 +1,11 @@
 package com.junnar.tourist_guide.controller;
 
+import com.junnar.tourist_guide.dto.UpdateProfileRequest;
 import com.junnar.tourist_guide.model.User;
 import com.junnar.tourist_guide.repository.ItineraryRepository;
 import com.junnar.tourist_guide.repository.ReviewRepository;
 import com.junnar.tourist_guide.repository.UserRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -43,10 +45,10 @@ public class UserController {
 
     // PUT /api/user/profile — update name
     @PutMapping("/profile")
-    public ResponseEntity<?> updateProfile(@RequestBody Map<String, String> body, Authentication auth) {
+    public ResponseEntity<?> updateProfile(@Valid @RequestBody UpdateProfileRequest body, Authentication auth) {
         if (auth == null) return ResponseEntity.status(401).body(Map.of("error", "Unauthorized"));
         User user = userRepository.findByEmail(auth.getName()).orElseThrow();
-        if (body.containsKey("name")) user.setName(body.get("name"));
+        user.setName(body.name().trim());
         userRepository.save(user);
         
         Map<String, String> response = new HashMap<>();
